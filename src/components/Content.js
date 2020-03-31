@@ -7,58 +7,43 @@ function Content() {
   const buttonRef = useRef(null);
 
   const [Pokemons, setPokemons] = useState([]);
-  const [Types, setTypes] = useState([]);
   const [MainPokemonImage, setMainPokemonImage] = useState(null);
   const [Loading, setLoading] = useState(true);
+  const [CurrentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    const endpoint = `${API_URL}pokemon/?limit=12`;
-    fetchPokemons(endpoint);
+    const endpoint = `${API_URL}pokemon/?offset=${CurrentPage}&limit=12`;
+    fetchPokemons(endpoint); // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    const endpoint = `${API_URL}type/?limit=999
-`;
-    fetchTypes(endpoint);
-  }, []);
-
-  const fetchTypes = endpoint => {
-    fetch(endpoint)
-      .then(result => result.json())
-      .then(result => {
-        setTypes([...Types, ...result.results]);
-      })
-      .catch(error => console.error("Error:", error));
-  };
 
   const fetchPokemons = endpoint => {
     fetch(endpoint)
       .then(result => result.json())
       .then(result => {
         setPokemons([...Pokemons, ...result.results]);
-
         setMainPokemonImage(MainPokemonImage || result.results[0]);
+        setCurrentPage(CurrentPage + 12);
       }, setLoading(false))
       .catch(error => console.error("Error:", error));
   };
   const loadMoreItems = () => {
     let endpoint = "";
-    endpoint = `${API_URL}pokemon?offset=12&limit=12`;
+    endpoint = `${API_URL}pokemon?offset=${CurrentPage}&limit=12`;
     fetchPokemons(endpoint);
-    fetchTypes(endpoint);
   };
+
   return (
     <div style={{ margin: 0 }}>
       <div style={{ margin: "1rem auto" }}>
         <Row gutter={[16, 16]}>
           {Pokemons &&
-            Pokemons.map((pokemon, index, type) => (
+            Pokemons.map((pokemon, index) => (
               <React.Fragment key={index}>
                 <GridCard
                   image={`${IMAGE_BASE_URL}${++index}.png`}
-                  pokemonId={pokemon.id}
+                  pokemonId={index}
                   pokemonName={pokemon.name}
-                  typeName={type.name}
+                  pokemonUrl={pokemon.url}
                 />
               </React.Fragment>
             ))}
