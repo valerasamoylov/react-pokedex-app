@@ -1,11 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Col, Typography } from "antd";
+import { API_URL } from "../config.js";
 import "./GridCards.css";
-import About from "./About.js";
+
 const { Title } = Typography;
 
 function GridCards(props) {
   let { key, image, pokemonId, pokemonName, pokemonUrl } = props;
+
+  const [Pokemon, setPokemon] = useState([]);
+  const [LoadingForPokemon, setLoadingForPokemon] = useState(true);
+
+  useEffect(() => {
+    const endpointForPokemonInfo = `${pokemonUrl}`;
+    fetchPokemon(endpointForPokemonInfo); // eslint-disable-next-line
+  }, []);
+
+  const fetchPokemon = endpointForPokemonInfo => {
+    fetch(endpointForPokemonInfo)
+      .then(result => result.json())
+      .then(result => {
+        setPokemon([...Pokemon, result.results]);
+        setLoadingForPokemon(false);
+      })
+      .catch(error => console.error("Error:", error));
+  };
 
   return (
     <Col key={key} lg={8} md={12} xs={24}>
@@ -24,6 +43,24 @@ function GridCards(props) {
         <Title level={4} style={{ textAlign: "center" }}>
           {pokemonName.toUpperCase()}
         </Title>
+
+        <p>
+          {Pokemon &&
+            Pokemon.map(pokemonId => (
+              <React.Fragment key={pokemonId}>
+                <div
+                  style={{
+                    color: "#333",
+                    padding: 5,
+                    maxWidth: 100,
+                    display: "inline-block"
+                  }}
+                >
+                  {pokemonId.types.type.name}
+                </div>
+              </React.Fragment>
+            ))}
+        </p>
       </div>
     </Col>
   );
