@@ -46,7 +46,7 @@ function GridCards(props) {
 
         <p>
           {Pokemon &&
-            Pokemon.map((pokemonUrl, id) => (
+            Pokemon.map((pokemon, id) => (
               <React.Fragment key={id}>
                 <div
                   style={{
@@ -56,7 +56,7 @@ function GridCards(props) {
                     display: "inline-block"
                   }}
                 >
-                  {pokemonUrl.type.name}
+                  {pokemon.types.type.name}
                 </div>
               </React.Fragment>
             ))}
