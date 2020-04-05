@@ -3,6 +3,26 @@ import { Col, Typography } from "antd";
 import "./GridCards.css";
 
 const { Title } = Typography;
+const typeColors = {
+  normal: "#8A8A80",
+  fire: "#FE6148",
+  water: "#4B90D6",
+  electric: "#FFCC32",
+  grass: "#77CC55",
+  ice: "#7ED4FF",
+  fighting: "#BA5544",
+  poison: "#AA5599",
+  ground: "#D8BD6C",
+  flying: "#9AA9FE",
+  psychic: "#FF6FA9",
+  bug: "#AABB22",
+  rock: "#C5B67E",
+  ghost: "#7D7EC6",
+  dragon: "#7766ED",
+  dark: "#795848",
+  steel: "#B7B7C5",
+  fairy: "#F1A9F0",
+};
 
 function GridCards(props) {
   let { key, image, pokemonId, pokemonName, pokemonUrl } = props;
@@ -15,13 +35,13 @@ function GridCards(props) {
     fetchPokemon(endpointForPokemonInfo); // eslint-disable-next-line
   }, []);
 
-  const fetchPokemon = endpointForPokemonInfo => {
+  const fetchPokemon = (endpointForPokemonInfo) => {
     fetch(endpointForPokemonInfo)
-      .then(result => result.json())
-      .then(result => {
+      .then((result) => result.json())
+      .then((result) => {
         setPokemon([...Pokemon, result.types]);
       }, setLoadingForPokemon(false))
-      .catch(error => console.error("Error:", error));
+      .catch((error) => console.error("Error:", error));
   };
 
   return (
@@ -32,7 +52,7 @@ function GridCards(props) {
           flexDirection: "column",
           justifyContent: "center",
           border: "1px solid #333",
-          borderRadius: ".3rem"
+          borderRadius: ".3rem",
         }}
       >
         <a href={`/pokemon/${pokemonId}`}>
@@ -44,18 +64,24 @@ function GridCards(props) {
 
         <div>
           {Pokemon &&
-            Pokemon.map(types => (
-              <React.Fragment key={types}>
-                <div
-                  style={{
-                    color: "#333",
-                    padding: 5,
-                    maxWidth: 100,
-                    display: "inline-block"
-                  }}
-                >
-                  {}
-                </div>
+            Pokemon.map((types, id) => (
+              <React.Fragment key={id}>
+                {types.map((currType, typeId) => (
+                  <div
+                    key={typeId}
+                    style={{
+                      color: "#fff",
+                      padding: ".2rem 1rem",
+                      display: "inline-block",
+                      borderRadius: ".3rem",
+                      margin: ".2rem",
+                      backgroundColor: `${typeColors[currType.type.name]}`,
+                    }}
+                  >
+                    {currType.type.name.charAt(0).toUpperCase() +
+                      currType.type.name.substring(1)}
+                  </div>
+                ))}
               </React.Fragment>
             ))}
         </div>
