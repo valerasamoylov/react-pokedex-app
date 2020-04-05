@@ -25,9 +25,9 @@ const typeColors = {
 };
 
 function GridCards(props) {
-  let { key, image, pokemonId, pokemonName, pokemonUrl } = props;
+  let { key, image, pokemonName, pokemonUrl, SelectedPokemon } = props;
 
-  const [Pokemon, setPokemon] = useState([]);
+  const [PokemonTypes, setPokemonTypes] = useState([]);
   const [LoadingForPokemon, setLoadingForPokemon] = useState(true);
 
   useEffect(() => {
@@ -39,13 +39,17 @@ function GridCards(props) {
     fetch(endpointForPokemonInfo)
       .then((result) => result.json())
       .then((result) => {
-        setPokemon([...Pokemon, result.types]);
+        setPokemonTypes([...PokemonTypes, result.types]);
       }, setLoadingForPokemon(false))
       .catch((error) => console.error("Error:", error));
   };
 
+  function handleClick(event) {
+    setSelectedPokemon(pokemon);
+  }
+
   return (
-    <Col key={key} lg={8} md={12} xs={24}>
+    <Col key={key} lg={8} md={12} xs={24} onClick={handleClick}>
       <div
         style={{
           display: "flex",
@@ -55,16 +59,15 @@ function GridCards(props) {
           borderRadius: ".3rem",
         }}
       >
-        <a href={`/pokemon/${pokemonId}`}>
-          <img alt={pokemonName} src={image} />
-        </a>
+        <img alt={pokemonName} src={image} />
+
         <Title level={4} style={{ textAlign: "center" }}>
           {pokemonName.charAt(0).toUpperCase() + pokemonName.substring(1)}
         </Title>
 
         <div>
-          {Pokemon &&
-            Pokemon.map((types, id) => (
+          {PokemonTypes &&
+            PokemonTypes.map((types, id) => (
               <React.Fragment key={id}>
                 {types.map((currType, typeId) => (
                   <div
