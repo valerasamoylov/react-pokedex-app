@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Col, Typography } from "antd";
-import { API_URL } from "../config.js";
 import "./GridCards.css";
 
 const { Title } = Typography;
@@ -20,9 +19,8 @@ function GridCards(props) {
     fetch(endpointForPokemonInfo)
       .then(result => result.json())
       .then(result => {
-        setPokemon([...Pokemon, result.results]);
-        setLoadingForPokemon(false);
-      })
+        setPokemon([...Pokemon, result.types]);
+      }, setLoadingForPokemon(false))
       .catch(error => console.error("Error:", error));
   };
 
@@ -41,13 +39,13 @@ function GridCards(props) {
           <img alt={pokemonName} src={image} />
         </a>
         <Title level={4} style={{ textAlign: "center" }}>
-          {pokemonName.toUpperCase()}
+          {pokemonName.charAt(0).toUpperCase() + pokemonName.substring(1)}
         </Title>
 
-        <p>
+        <div>
           {Pokemon &&
-            Pokemon.map((pokemon, id) => (
-              <React.Fragment key={id}>
+            Pokemon.map(types => (
+              <React.Fragment key={types}>
                 <div
                   style={{
                     color: "#333",
@@ -56,11 +54,12 @@ function GridCards(props) {
                     display: "inline-block"
                   }}
                 >
-                  {pokemon.types.type.name}
+                  {}
                 </div>
               </React.Fragment>
             ))}
-        </p>
+        </div>
+        {LoadingForPokemon && <div>Loading...</div>}
       </div>
     </Col>
   );
