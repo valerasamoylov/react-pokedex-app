@@ -4,7 +4,7 @@ import { IMAGE_BASE_URL } from "../config";
 import GridCard from "../commons/GridCards";
 
 function Pokemons(props) {
-  let { PokemonsList, loadMoreItems, Loading, setPokemon } = props;
+  let { PokemonsList, loadMoreItems, Loading, onClickPoke } = props;
   const buttonRef = useRef(null);
 
   return (
@@ -19,7 +19,7 @@ function Pokemons(props) {
                   pokemonId={index}
                   pokemonName={pokemon.name}
                   pokemonUrl={pokemon.url}
-                  setPokemon={setPokemon}
+                  onClickPoke={onClickPoke}
                 />
               </React.Fragment>
             ))}

@@ -1,25 +1,33 @@
-import React from "react";
-import { Typography } from "antd";
-
-const { Title } = Typography;
+import React, { useState, useEffect } from "react";
+import PokemonDetails from "./PokemonDetails";
+import { API_URL, IMAGE_BASE_URL } from "../config";
 
 function About(props) {
-  let { pokemonUrl } = props;
+  let { index } = props;
+  const [Pokemon, setPokemon] = useState([]);
+  const [Loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let endpointForPokemonDetails = `${API_URL}${index}`;
+    fetchPokemonDetails(endpointForPokemonDetails);
+  });
+
+  const fetchPokemonDetails = (endpointForPokemonDetails) => {
+    fetch(endpointForPokemonDetails)
+      .then((result) => result.json())
+      .then((result) => {
+        setPokemon([Pokemon, result]);
+      }, setLoading(false))
+      .catch((error) => console.log("Error:", error));
+  };
+
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 150,
-        right: 150,
-      }}
-    >
-      <div
-        style={{ border: "1px solid #333", height: "300px", width: "250px" }}
-      >
-        <Title level={4} style={{ textAlign: "center" }}>
-          ABOUT
-        </Title>
-      </div>
+    <div style={{}}>
+      <PokemonDetails
+        pokemon={Pokemon}
+        Loading={Loading}
+        image={`${IMAGE_BASE_URL}${index}.png`}
+      />
     </div>
   );
 }

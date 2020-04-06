@@ -25,7 +25,7 @@ const typeColors = {
 };
 
 function GridCards(props) {
-  let { key, image, pokemonName, pokemonUrl, SelectedPokemon } = props;
+  let { key, image, pokemonName, pokemonUrl, pokemonId } = props;
 
   const [PokemonTypes, setPokemonTypes] = useState([]);
   const [LoadingForPokemon, setLoadingForPokemon] = useState(true);
@@ -44,12 +44,16 @@ function GridCards(props) {
       .catch((error) => console.error("Error:", error));
   };
 
-  function handleClick(event) {
-    setSelectedPokemon(pokemon);
-  }
-
   return (
-    <Col key={key} lg={8} md={12} xs={24} onClick={handleClick}>
+    <Col
+      key={key}
+      lg={8}
+      md={12}
+      xs={24}
+      onClick={() => {
+        props.onClickPoke(pokemonId);
+      }}
+    >
       <div
         style={{
           display: "flex",

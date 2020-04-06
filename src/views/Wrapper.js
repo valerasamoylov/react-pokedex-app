@@ -9,7 +9,7 @@ function Wrapper() {
   const [MainPokemonImage, setMainPokemonImage] = useState(null);
   const [Loading, setLoading] = useState(true);
   const [CurrentPage, setCurrentPage] = useState(0);
-  const [SelectedPokemon, setSelectedPokemon] = useState([]);
+  const [SelectedPokemonIndex, setSelectedPokemonIndex] = useState();
 
   useEffect(() => {
     const endpoint = `${API_URL}?offset=${CurrentPage}&limit=12`;
@@ -33,7 +33,9 @@ function Wrapper() {
     fetchPokemons(endpoint);
   };
 
-  const setPokemon = (pokemon) => setSelectedPokemon(pokemon);
+  function handleClick(pokemonId) {
+    setSelectedPokemonIndex(pokemonId);
+  }
 
   return (
     <Row>
@@ -42,11 +44,11 @@ function Wrapper() {
           PokemonsList={PokemonsList}
           loadMoreItems={loadMoreItems}
           Loading={Loading}
-          setPokemon={setPokemon}
+          onClickPoke={handleClick}
         />
       </Col>
       <Col xs={24} sm={10} lg={8}>
-        <About />
+        <About index={SelectedPokemonIndex} />
       </Col>
     </Row>
   );
