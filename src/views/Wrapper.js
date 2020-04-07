@@ -13,9 +13,9 @@ function Wrapper() {
   const [LoadingForSelectedPokemon, setLoadingForSelectedPokemon] = useState(
     true
   );
-  const [SelectedPokemonIndex, setSelectedPokemonIndex] = useState([]);
+  const [SelectedPokemonIndex, setSelectedPokemonIndex] = useState();
   const [PokemonTypes, setPokemonTypes] = useState([]);
-  const [LoadingForPokemon, setLoadingForPokemon] = useState(true);
+  const [PokemonStats, setPokemonStats] = useState([]);
 
   useEffect(() => {
     const endpoint = `${API_URL}?offset=${CurrentPage}&limit=12`;
@@ -57,6 +57,15 @@ function Wrapper() {
       .catch((error) => console.error("Error:", error));
   };
 
+  const fetchPokemonStats = (pokemonId) => {
+    fetch(`${API_URL}${pokemonId}`)
+      .then((result) => result.json())
+      .then((result) => {
+        setPokemonStats([result]);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
   return (
     <Row>
       <Col xs={24} sm={14} lg={16}>
@@ -67,6 +76,7 @@ function Wrapper() {
           onClickPoke={(pokemonId) => {
             fetchPokemonDetails(pokemonId);
             fetchPokemon(pokemonId);
+            fetchPokemonStats(pokemonId);
             setSelectedPokemonIndex(pokemonId);
           }}
         />
@@ -75,6 +85,7 @@ function Wrapper() {
         <About
           pokemon={SelectedPokemon}
           PokemonTypes={PokemonTypes}
+          PokemonStats={PokemonStats}
           index={SelectedPokemonIndex}
           LoadingForSelectedPokemon={LoadingForSelectedPokemon}
         />

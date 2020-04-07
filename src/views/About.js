@@ -3,7 +3,13 @@ import PokemonDetails from "./PokemonDetails";
 import { IMAGE_BASE_URL } from "../config";
 
 function About(props) {
-  let { pokemon, LoadingForSelectedPokemon, index, PokemonTypes } = props;
+  let {
+    pokemon,
+    LoadingForSelectedPokemon,
+    index,
+    PokemonTypes,
+    PokemonStats,
+  } = props;
 
   return (
     <div
@@ -16,10 +22,12 @@ function About(props) {
     >
       <PokemonDetails
         pokemonName={pokemon.name}
+        pokemonId={pokemon.id}
         pokemon={pokemon}
         LoadingForSelectedPokemon={LoadingForSelectedPokemon}
         image={`${IMAGE_BASE_URL}${index}.png`}
         PokemonTypes={PokemonTypes}
+        PokemonStats={PokemonStats}
       />
     </div>
   );

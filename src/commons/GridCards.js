@@ -55,12 +55,14 @@ function GridCards(props) {
       }}
     >
       <div
+        className="poke-card"
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           border: "1px solid #333",
           borderRadius: ".3rem",
+          cursor: "pointer",
         }}
       >
         <img alt={pokemonName} src={image} />

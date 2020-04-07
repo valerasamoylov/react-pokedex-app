@@ -8,6 +8,6 @@ img {
   transition: all 1s ease-out;
 }
 
-img:hover {
-  transform: scale(1.1);
+.poke-card:hover {
+  background-color: lightskyblue;
 }
