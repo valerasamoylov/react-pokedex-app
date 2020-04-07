@@ -16,6 +16,7 @@ function Wrapper() {
   const [SelectedPokemonIndex, setSelectedPokemonIndex] = useState();
   const [PokemonTypes, setPokemonTypes] = useState([]);
   const [PokemonStats, setPokemonStats] = useState([]);
+  const [isAboutShown, setAboutShow] = useState(false);
 
   useEffect(() => {
     const endpoint = `${API_URL}?offset=${CurrentPage}&limit=12`;
@@ -78,17 +79,20 @@ function Wrapper() {
             fetchPokemon(pokemonId);
             fetchPokemonStats(pokemonId);
             setSelectedPokemonIndex(pokemonId);
+            setAboutShow(true);
           }}
         />
       </Col>
       <Col xs={24} sm={10} lg={8}>
-        <About
-          pokemon={SelectedPokemon}
-          PokemonTypes={PokemonTypes}
-          PokemonStats={PokemonStats}
-          index={SelectedPokemonIndex}
-          LoadingForSelectedPokemon={LoadingForSelectedPokemon}
-        />
+        {isAboutShown && (
+          <About
+            pokemon={SelectedPokemon}
+            PokemonTypes={PokemonTypes}
+            PokemonStats={PokemonStats}
+            index={SelectedPokemonIndex}
+            LoadingForSelectedPokemon={LoadingForSelectedPokemon}
+          />
+        )}
       </Col>
     </Row>
   );

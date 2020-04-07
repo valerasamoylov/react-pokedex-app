@@ -1,5 +1,5 @@
 import React from "react";
-import PokemonDetails from "./PokemonDetails";
+import PokemonDetails from "../commons/PokemonDetails";
 import { IMAGE_BASE_URL } from "../config";
 
 function About(props) {

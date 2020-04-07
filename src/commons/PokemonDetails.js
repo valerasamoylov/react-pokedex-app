@@ -54,7 +54,7 @@ function PokemonDetails(props) {
             {pokemonName.charAt(0).toUpperCase() + pokemonName.substring(1)}{" "}
           </span>
         ) : null}
-        {pokemonId}
+        #{pokemonId}
       </Title>
 
       {Loading && <div>Loading...</div>}
