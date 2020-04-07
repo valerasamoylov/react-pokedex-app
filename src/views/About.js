@@ -1,32 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PokemonDetails from "./PokemonDetails";
-import { API_URL, IMAGE_BASE_URL } from "../config";
+import { IMAGE_BASE_URL } from "../config";
 
 function About(props) {
-  let { index } = props;
-  const [Pokemon, setPokemon] = useState([]);
-  const [Loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let endpointForPokemonDetails = `${API_URL}${index}`;
-    fetchPokemonDetails(endpointForPokemonDetails);
-  });
-
-  const fetchPokemonDetails = (endpointForPokemonDetails) => {
-    fetch(endpointForPokemonDetails)
-      .then((result) => result.json())
-      .then((result) => {
-        setPokemon([Pokemon, result]);
-      }, setLoading(false))
-      .catch((error) => console.log("Error:", error));
-  };
+  let { pokemon, LoadingForSelectedPokemon, index, PokemonTypes } = props;
 
   return (
-    <div style={{}}>
+    <div
+      style={{
+        position: "sticky",
+        top: 0,
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
       <PokemonDetails
-        pokemon={Pokemon}
-        Loading={Loading}
+        pokemonName={pokemon.name}
+        pokemon={pokemon}
+        LoadingForSelectedPokemon={LoadingForSelectedPokemon}
         image={`${IMAGE_BASE_URL}${index}.png`}
+        PokemonTypes={PokemonTypes}
       />
     </div>
   );

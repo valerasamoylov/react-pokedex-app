@@ -9,7 +9,13 @@ function Wrapper() {
   const [MainPokemonImage, setMainPokemonImage] = useState(null);
   const [Loading, setLoading] = useState(true);
   const [CurrentPage, setCurrentPage] = useState(0);
-  const [SelectedPokemonIndex, setSelectedPokemonIndex] = useState();
+  const [SelectedPokemon, setSelectedPokemon] = useState([]);
+  const [LoadingForSelectedPokemon, setLoadingForSelectedPokemon] = useState(
+    true
+  );
+  const [SelectedPokemonIndex, setSelectedPokemonIndex] = useState([]);
+  const [PokemonTypes, setPokemonTypes] = useState([]);
+  const [LoadingForPokemon, setLoadingForPokemon] = useState(true);
 
   useEffect(() => {
     const endpoint = `${API_URL}?offset=${CurrentPage}&limit=12`;
@@ -33,9 +39,23 @@ function Wrapper() {
     fetchPokemons(endpoint);
   };
 
-  function handleClick(pokemonId) {
-    setSelectedPokemonIndex(pokemonId);
-  }
+  const fetchPokemonDetails = (pokemonId) => {
+    fetch(`${API_URL}${pokemonId}`)
+      .then((result) => result.json())
+      .then((result) => {
+        setSelectedPokemon(result);
+      }, setLoadingForSelectedPokemon(false))
+      .catch((error) => console.log("Error:", error));
+  };
+
+  const fetchPokemon = (pokemonId) => {
+    fetch(`${API_URL}${pokemonId}`)
+      .then((result) => result.json())
+      .then((result) => {
+        setPokemonTypes([result.types]);
+      }, setLoadingForSelectedPokemon(false))
+      .catch((error) => console.error("Error:", error));
+  };
 
   return (
     <Row>
@@ -44,11 +64,20 @@ function Wrapper() {
           PokemonsList={PokemonsList}
           loadMoreItems={loadMoreItems}
           Loading={Loading}
-          onClickPoke={handleClick}
+          onClickPoke={(pokemonId) => {
+            fetchPokemonDetails(pokemonId);
+            fetchPokemon(pokemonId);
+            setSelectedPokemonIndex(pokemonId);
+          }}
         />
       </Col>
       <Col xs={24} sm={10} lg={8}>
-        <About index={SelectedPokemonIndex} />
+        <About
+          pokemon={SelectedPokemon}
+          PokemonTypes={PokemonTypes}
+          index={SelectedPokemonIndex}
+          LoadingForSelectedPokemon={LoadingForSelectedPokemon}
+        />
       </Col>
     </Row>
   );

@@ -73,9 +73,9 @@ function GridCards(props) {
           {PokemonTypes &&
             PokemonTypes.map((types, id) => (
               <React.Fragment key={id}>
-                {types.map((currType, typeId) => (
+                {types.map((currType, url) => (
                   <div
-                    key={typeId}
+                    key={url}
                     style={{
                       color: "#fff",
                       padding: ".2rem 1rem",
