@@ -34,6 +34,8 @@ function PokemonDetails(props) {
     PokemonStats,
   } = props;
 
+  pokemonId = String(pokemonId);
+
   return (
     <div
       style={{
@@ -54,7 +56,11 @@ function PokemonDetails(props) {
             {pokemonName.charAt(0).toUpperCase() + pokemonName.substring(1)}{" "}
           </span>
         ) : null}
-        #{pokemonId}
+        {pokemonId !== undefined
+          ? (pokemonId.length === 1 && <span>#00{pokemonId}</span>) ||
+            (pokemonId.length === 2 && <span>#0{pokemonId}</span>) ||
+            (pokemonId.length === 3 && <span>#{pokemonId}</span>)
+          : null}
       </Title>
 
       {Loading && <div>Loading...</div>}
@@ -120,14 +126,27 @@ function PokemonDetails(props) {
               <div>
                 {pokemon.stats
                   ? pokemon.stats.map((t) => (
-                      <p style={{ padding: "0", margin: "0" }}>{t.base_stat}</p>
+                      <p
+                        style={{
+                          padding: "0",
+                          margin: "0",
+                          textAlign: "right",
+                        }}
+                      >
+                        {t.base_stat}
+                      </p>
                     ))
                   : ""}
               </div>
             </React.Fragment>
           ))}
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <div>Total moves</div>
         {pokemon.moves !== undefined ? (
           <span>{pokemon.moves.length} </span>
