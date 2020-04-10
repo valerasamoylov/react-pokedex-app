@@ -1,7 +1,7 @@
 ## React-pokedex-app
 
 React-pokedex-app is a simple pokemon information engine made with ReactJS and powered by [PokéAPI](https://pokeapi.co/).
-Look [https://valerasamoylov.github.io/react-pokedex-app/](https://valerasamoylov.github.io/react-pokedex-app/).
+Look [here](https://valerasamoylov.github.io/react-pokedex-app/).
 
 #### Demo
 
